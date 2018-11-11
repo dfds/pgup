@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  database:
+    image: postgres:latest
+    ports:
+    - 5432:5432
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=p
+
+  db-migration:
+    build: .
+    depends_on:
+    - database
+    volumes:
+    - ${PWD}/db:/db
+    # - ${PWD}/output:/tmp
+    environment:
+    # - DEBUG=1                     # enable script debugging
+    # - DRY_RUN=1
+    - LOCAL_DEVELOPMENT=1         # will try to CREATE DATABASE ${PGDATABASE}
+    - PGDATABASE=teamservice      # database name
+    - PGHOST=database             # same as avove - docker-compose service name
+    - PGPORT=5432                 # same as above
+    - PGUSER=postgres             # same as above
+    - PGPASSWORD=p                # same as above
+    - PGSSLMODE=disable           # ignore SSLMODE for local development (overwritten - see ./db/Dockerfile)
