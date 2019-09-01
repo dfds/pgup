@@ -9,7 +9,7 @@ services:
     - POSTGRES_USER=postgres
     - POSTGRES_PASSWORD=p
 
-  db-migration:
+  pgup:
     build: .
     depends_on:
     - database
