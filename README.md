@@ -1,5 +1,15 @@
 # Postgres Database Migration
 
+## Installation
+
+### Bash
+
+The following will download the latest version:
+
+```
+curl -sSL https://raw.githubusercontent.com/dfds/pgup/master/install.sh | sh -s -
+```
+
 ## Notes on building `Dockerfile`
 
 When building the docker image `update-ca-certificates` may cause warnings, it should not be an issue according to https://github.com/gliderlabs/docker-alpine/issues/30
