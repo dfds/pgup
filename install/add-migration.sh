@@ -15,7 +15,7 @@ echo ''
 read -p "Please enter the title of your new migration script: " inputName
 
 name=$(echo ${inputName} | tr "[:blank:]" "_")
-dir="$(pwd)/migrations"
+dir="$(pwd)/db/migrations"
 
 if [ ! -d ${dir} ]; then
     mkdir ${dir}
