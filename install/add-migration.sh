@@ -10,7 +10,7 @@ echo ' |   \| _ ) |  \/  |_ _|(_)) __| _ \ (_)_\(_)_   _|_ _| / _ \| \| | '
 echo ' | |) | _ \ | |\/| || |   | (_ |   /  / _ \   | |  | | | (_) | .` | '
 echo ' |___/|___/ |_|  |_|___|   \___|_|_\ /_/ \_\  |_| |___| \___/|_|\_| '
 echo '                                                                    '
- echo ''
+echo ''
 
 read -p "Please enter the title of your new migration script: " inputName
 

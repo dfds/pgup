@@ -16,7 +16,7 @@ function err() {
 
 [[ -d ${db_path} ]] && err "${db_path} already exists, aborting..."
 [[ -f "add-migration.sh" ]] && err "add-migration.sh already exists, aborting..."
-[[ -d "docker-compose.yml" ]] && err "docker-compose.yml already exists, aborting..."
+[[ -f "docker-compose.yml" ]] && err "docker-compose.yml already exists, aborting..."
 
 temp=$(mktemp -d)
 
@@ -59,5 +59,4 @@ echo "│ └ seed/             # contains example seed data"
 echo "├ add-migration.sh    # use this script to add migrations"
 echo "└ docker-compose.yaml # example of database and migration container"
 echo
-echo -e "\033[1m** NOTE: remember to remove any example scripts before committing...\033[0m"
-
+echo "\033[1m** NOTE: remember to remove any example scripts before committing...\033[0m"

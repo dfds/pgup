@@ -21,4 +21,4 @@ EOF
 
 echo "Creating release for ${version} on ${branch}"
 
-curl --data "$(generate_post_data)" "https://api.github.com/repos/${owner}/${repo}/releases?access_token=${token}"
+curl -s --data "$(generate_post_data)" "https://api.github.com/repos/${owner}/${repo}/releases?access_token=${token}"
