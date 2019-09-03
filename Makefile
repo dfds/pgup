@@ -1,6 +1,6 @@
-DOCKER_IMAGE_NAME	= dfds/pgup:$(VERSION)
-OWNER				:= dfds
+OWNER				:= thofisch
 REPO				:= pgup
+DOCKER_IMAGE_NAME	= $(OWNER)/$(REPO):$(VERSION)
 PROJECT				:= github.com/$(OWNER)/$(REPO)
 VERSION				?= $(shell git describe --tags --always --dirty --match=v* 2> /dev/null || cat $(CURDIR)/.version 2> /dev/null || echo v0)
 M					= $(shell printf "\033[34;1m▶\033[0m")
@@ -41,7 +41,7 @@ docker: docker-build docker-push ## build and push docker container
 
 .PHONY: docker-build
 docker-build: ; $(info $(M) Building docker container $(DOCKER_IMAGE_NAME)) @ ## build docker image
-	#docker build -t $(DOCKER_IMAGE_NAME) .
+	docker build -t $(DOCKER_IMAGE_NAME) .
 
 .PHONY: docker-push
 docker-push: ; $(info $(M) Pushing docker container $(DOCKER_IMAGE_NAME)) @ ## push docker image
