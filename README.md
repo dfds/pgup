@@ -39,16 +39,17 @@ to add a new migration script. Will result in a new script file being created in
 
 ## Environment Variables
 
-| Name              | Required | Default     | Comment                                                            |
-|-------------------|:--------:|-------------|--------------------------------------------------------------------|
-| PGDATABASE        |    YES   | n/a         | **MUST** be set to the name of the database                        |
-| PGHOST            |    YES   | n/a         | **MUST** be set to the host (url/ip)                               |
-| PGPORT            |     -    | 5432        | **MAY** be overridden to use a different port                      |
-| PGUSER            |    YES   | n/a         | **MUST** be set to the database user                               |
-| PGPASSWORD        |    YES   | n/a         | **MUST** be set to the database user password                      |
-| PGSSLMODE         |     -    | verify-full | **MAY** be set to *disable* for local development                  |
-| DEBUG             |     -    | *unset*     | **MAY** be set to any value (=1) to enable script debugging        |
-| LOCAL_DEVELOPMENT |     -    | *unset*     | **MAY** be set to any value (=1) for local development (see below) |
+| Name               | Required | Default     | Comment                                                                      |
+| ------------------ | :------: | ----------- | ---------------------------------------------------------------------------- |
+| PGDATABASE         |   YES    | n/a         | **MUST** be set to the name of the database                                  |
+| PGHOST             |   YES    | n/a         | **MUST** be set to the host (url/ip)                                         |
+| PGPORT             |    -     | 5432        | **MAY** be overridden to use a different port                                |
+| PGUSER             |   YES    | n/a         | **MUST** be set to the database user                                         |
+| PGPASSWORD         |   YES    | n/a         | **MUST** be set to the database user password                                |
+| PGSSLMODE          |    -     | verify-full | **MAY** be set to _disable_ for local development                            |
+| DEBUG              |    -     | _unset_     | **MAY** be set to any value (=1) to enable script debugging                  |
+| LOCAL_DEVELOPMENT  |    -     | _unset_     | **MAY** be set to any value (=1) for local development (see below)           |
+| SEED_CSV_SEPARATOR |    -     | ,           | **MAY** be overriden to allow for a different seperator for seeding from csv |
 
 ## Local development
 
@@ -57,11 +58,12 @@ Run
 ```bash
 docker-compose up --build
 ```
+
 Change the environment values in the `docker-compose.yml` file.
 
-* Enable local development using `LOCAL_DEVELOPMENT=1`.
-    *  Will recreate the database from scratch and run any migrations as well as seed the database.
-* Disable SSL mode using `PGSSLMODE=disable`.
+- Enable local development using `LOCAL_DEVELOPMENT=1`.
+  - Will recreate the database from scratch and run any migrations as well as seed the database.
+- Disable SSL mode using `PGSSLMODE=disable`.
 
 ### Seeding
 
@@ -69,21 +71,21 @@ To seed the database for local development:
 
 1. create a `seed` folder in the `db` folder, according to the layout above.
 1. create one or more `.csv` files
-    * the name of the file must match a table in the database (remember Postgres is case-sensitive like Linux).
-    * file **must** contain a header
-    * all fields (including headers) **must** be separated by commas (`,`).
-    * fields **must** be in the same order as the columns in the table schema.
+   - the name of the file must match a table in the database (remember Postgres is case-sensitive like Linux).
+   - file **must** contain a header
+   - all fields (including headers) **must** be separated by commas (`,`).
+   - fields **must** be in the same order as the columns in the table schema.
 1. create an `_order` file
-    * each line **must** contain the name of the CSV-files from the previous step.
-    * **only** include the name of the file (case-sensitive and with extension), **not** the path.
+   - each line **must** contain the name of the CSV-files from the previous step.
+   - **only** include the name of the file (case-sensitive and with extension), **not** the path.
 
-*To seed the database for production use is out-of-scope for this README, but consider using regular migration scripts and insert statements, or restoring a prepopulated database.*
+_To seed the database for production use is out-of-scope for this README, but consider using regular migration scripts and insert statements, or restoring a prepopulated database._
 
 ### Debugging
 
-* Enable debugging by setting environment variable `DEBUG` (e.g. `DEBUG=1`).
-* To inspect the final generated migration script it is possible to mount a volumne to `/tmp` in the docker container, like:
-    ```yaml
-    volumes:
+- Enable debugging by setting environment variable `DEBUG` (e.g. `DEBUG=1`).
+- To inspect the final generated migration script it is possible to mount a volumne to `/tmp` in the docker container, like:
+  ```yaml
+  volumes:
     - ${PWD}/db/output:/tmp
-    ```
+  ```
