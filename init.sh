@@ -175,7 +175,7 @@ seed_database() {
 
             echo -e "Seeding ${GREEN}${table_name}${RESET} with ${GREEN}${file}${RESET}${dry_run}"
             if [[ -z "${dry_run}" ]]; then
-                ${PSQL} --single-transaction --command="\\copy \"${table_name}\" FROM '${file}' WITH DELIMITER ',' CSV HEADER;"
+                ${PSQL} --single-transaction --command="\\copy \"${table_name}\" FROM '${file}' WITH DELIMITER '${SEED_CSV_SEPARATOR}' CSV HEADER;"
             fi
         done < ${order_file}
     else
