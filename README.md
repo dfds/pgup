@@ -1,5 +1,7 @@
 # :warning: Repository not maintained :warning:
 
+*as of 22FEB24: Image built from this repo seems to do the bare minimum it's expected to do*
+
 Please note that this repository is no longer being maintained.
 
 - It may contain code, or reference dependencies, with known vulnerabilities
