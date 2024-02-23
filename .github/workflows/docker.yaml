@@ -1,0 +1,71 @@
+name: Docker CI/CD
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+# You must set your full image name here in the format dockerOrganization/dockerRepository
+# For example: dfdsdk/hello
+env:
+  IMAGE_NAME: dfdsdk/pgup
+
+jobs:
+  test:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Test building image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: false
+
+  publish:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Docker meta for latest
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.IMAGE_NAME }}
+          flavor: |
+            latest=true
+          tags: |
+            type=ref,event=branch
+            type=ref,event=tag
+            type=semver,pattern={{major}}.{{minor}}.{{patch}}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      # This currently does not work, due to https://github.com/peter-evans/dockerhub-description/issues/10
+      # - name: Publish README.md to Docker Hub
+      #   uses: peter-evans/dockerhub-description@v2
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      #     repository: ${{ env.IMAGE_NAME }}
+      #     short-description: ${{ github.event.repository.description }}
