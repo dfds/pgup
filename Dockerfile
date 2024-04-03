@@ -2,7 +2,7 @@ FROM alpine:latest
 
 RUN apk --update add postgresql-client ca-certificates \
     && rm -rf /var/cache/apk/* \
-    && wget https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem -O /tmp/rds-combined-ca-bundle.pem \
+    && wget https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem -O /tmp/rds-combined-ca-bundle.pem \
     && mv /tmp/rds-combined-ca-bundle.pem /usr/local/share/ca-certificates/rds-combined-ca-bundle.crt \
     && update-ca-certificates
 
